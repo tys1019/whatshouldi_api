@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
 
   before_create :set_token
 
+  has_many :playlists, dependent: :destroy
+
   private
   def set_token
     return if token.present?

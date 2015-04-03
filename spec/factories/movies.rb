@@ -6,7 +6,7 @@ overview "MyText"
 poster_path "MyString"
 runtime "MyString"
 tagline "MyString"
-vote_average "MyString"
+tmdb_vote_average "MyString"
   end
 
 end

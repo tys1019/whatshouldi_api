@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150403172350) do
+ActiveRecord::Schema.define(version: 20150403181437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,8 +24,6 @@ ActiveRecord::Schema.define(version: 20150403172350) do
     t.integer  "runtime"
     t.string   "tagline"
     t.string   "tmdb_vote_average"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
     t.integer  "guidebox_id"
     t.string   "artwork"
     t.integer  "rottentomatoes_id"
@@ -38,7 +36,25 @@ ActiveRecord::Schema.define(version: 20150403172350) do
     t.text     "rt_ratings",                            array: true
     t.text     "rt_reviews",                            array: true
     t.text     "related",                               array: true
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
+
+  create_table "playlists", force: :cascade do |t|
+    t.integer "user_id"
+    t.string  "name"
+    t.integer "list_type"
+  end
+
+  add_index "playlists", ["user_id"], name: "index_playlists_on_user_id", using: :btree
+
+  create_table "saved_movies", force: :cascade do |t|
+    t.integer "playlist_id"
+    t.integer "movie_id"
+  end
+
+  add_index "saved_movies", ["movie_id"], name: "index_saved_movies_on_movie_id", using: :btree
+  add_index "saved_movies", ["playlist_id"], name: "index_saved_movies_on_playlist_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",      null: false
@@ -51,4 +67,7 @@ ActiveRecord::Schema.define(version: 20150403172350) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "playlists", "users"
+  add_foreign_key "saved_movies", "movies"
+  add_foreign_key "saved_movies", "playlists"
 end

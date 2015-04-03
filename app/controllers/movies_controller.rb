@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_action :set_movie, only: [:show]
+  before_action :set_movie, only: [:show, :update]
 
   # GET /movies
   # GET /movies.json
@@ -17,15 +17,23 @@ class MoviesController < ApplicationController
 
   # POST /movies
   # POST /movies.json
-  # def create
-  #   @movie = Movie.new(movie_params)
+  def create
+    @movie = Movie.new(movie_params)
 
-  #   if @movie.save
-  #     render json: @movie, status: :created, location: @movie
-  #   else
-  #     render json: @movie.errors, status: :unprocessable_entity
-  #   end
-  # end
+    if @movie.save
+      render json: @movie, status: :created, location: @movie
+    else
+      render json: @movie.errors, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @movie.update(movie_params)
+      head :no_content
+    else
+      render json: @movie.errors, status: :unprocessable_entity
+    end
+  end
 
 
   private
@@ -35,6 +43,6 @@ class MoviesController < ApplicationController
     end
 
     def movie_params
-      params.require(:movie).permit(:genres, :title, :overview, :poster_path, :runtime, :tagline, :vote_average)
+      params.require(:movie).permit(:genres, :title, :overview, :poster_path, :runtime, :tagline, :tmdb_vote_average, :guidebox_id, :artwork, :rottentomatoes_id, :imdb_id, :themoviedb_id, :trailer, :purchase_web_sources , :subscription_web_sources, :other_sources, :rt_ratings, :rt_reviews , :related)
     end
 end

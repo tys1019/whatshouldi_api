@@ -5,14 +5,18 @@ RSpec.describe MoviesController, :type => :controller do
 
 
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    ({
+      title: "Fight Club",
+      genres: ["action", "adventure"],
+      overview: "Men fight about stuff."
+      })
   }
 
 
   describe "GET index" do
     it "assigns all movies as @movies" do
       movie = Movie.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       expect(assigns(:movies)).to eq([movie])
     end
   end
@@ -20,7 +24,7 @@ RSpec.describe MoviesController, :type => :controller do
   describe "GET show" do
     it "assigns the requested movie as @movie" do
       movie = Movie.create! valid_attributes
-      get :show, {:id => movie.to_param}, valid_session
+      get :show, {:id => movie.to_param}
       expect(assigns(:movie)).to eq(movie)
     end
   end

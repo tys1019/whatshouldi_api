@@ -13,6 +13,11 @@ users = User.create([
   {first_name: 'D’Squarius', last_name: 'Green', email: 'dsquare@kp.com', password_digest: '$2a$10$KoWeUOUlJpeUG.5jdRfr8OZuM.PueGjbggf10KdmAmlRA7VsWjNFC', token: '47343b91822143eebeae5a8c14052c87', username: 'dsquare'}
 ])
 
+tyroil = User.first
+
+playlist = Playlist.create(name: "test", list_type: 0)
+tyroil.playlists << playlist
+
 fc = Movie.create(
       title: "Fight Club",
       genres: ["action", "adventure"],
@@ -113,4 +118,6 @@ fc = Movie.create(
             "publication": "Wall Street Journal",
             "quote": "Fight Club is an arresting, eventually appalling excursion into social satire by way of punishing violence."
             }
-        ])
+        ] )
+
+playlist.movies << fc
