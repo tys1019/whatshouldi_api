@@ -6,6 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 Movie.destroy_all
+User.destroy_all
+
+users = User.create([
+  {first_name: 'Tyroil', last_name: 'Smoochie-Wallace', email: 'tyriol@kp.com', password_digest: '$2a$10$5ypjoIZSHCo.1JZBcIBoFe1AiZ8eD03Bn7Y7MIHGM.Ll6x2r/a/BC', token: 'ca63da06464f4c6f8f33c0ddf254195f', username: 'tyriol'},
+  {first_name: 'D’Squarius', last_name: 'Green', email: 'dsquare@kp.com', password_digest: '$2a$10$KoWeUOUlJpeUG.5jdRfr8OZuM.PueGjbggf10KdmAmlRA7VsWjNFC', token: '47343b91822143eebeae5a8c14052c87', username: 'dsquare'}
+])
 
 fc = Movie.create(
       title: "Fight Club",
