@@ -7,7 +7,7 @@ class CreateMovies < ActiveRecord::Migration
       t.string :poster_path
       t.integer :runtime
       t.string :tagline
-      t.string :vote_average
+      t.string :tmdb_vote_average
 
       t.timestamps null: false
     end
