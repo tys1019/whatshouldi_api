@@ -107,5 +107,4 @@ fc = Movie.create(
             "publication": "Wall Street Journal",
             "quote": "Fight Club is an arresting, eventually appalling excursion into social satire by way of punishing violence."
             }
-        ]
-      )
+        ])
