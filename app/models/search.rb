@@ -7,16 +7,14 @@ class Search
     if @search_params[:media_type] == "movie"
 
       if @search_params[:guidebox_id]
-        @response = movie_details
+        movie_details
       else
-        @response = movie_title_search
+        movie_title_search
       end
 
     else @search_params[:media_type] == "tv"
-      @response = tv_title_search
+      tv_title_search
     end
-
-    @response
   end
 
   def movie_title_search
@@ -43,9 +41,10 @@ class Search
         imdb_id: response['imdb'],
         themoviedb_id: response['themoviedb'],
         trailer: response['trailers']['web'][0]['embed'],
+        cast: response['cast'],
+        free_web_sources: response['free_web_sources'],
         purchase_web_sources: response['purchase_web_sources'],
         subscription_web_sources: response['subscription_web_sources'],
-        other_sources: response['other_sources'],
         )
     end
   end

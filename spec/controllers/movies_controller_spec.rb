@@ -29,36 +29,45 @@ RSpec.describe MoviesController, :type => :controller do
     end
   end
 
-  # describe "POST create" do
-  #   describe "with valid params" do
-  #     it "creates a new Movie" do
-  #       expect {
-  #         post :create, {:movie => valid_attributes}, valid_session
-  #       }.to change(Movie, :count).by(1)
-  #     end
+  describe "POST create" do
+    describe "with valid params" do
+      it "creates a new Movie" do
+        expect {
+          post :create, {:movie => valid_attributes}
+        }.to change(Movie, :count).by(1)
+      end
 
-  #     it "assigns a newly created movie as @movie" do
-  #       post :create, {:movie => valid_attributes}, valid_session
-  #       expect(assigns(:movie)).to be_a(Movie)
-  #       expect(assigns(:movie)).to be_persisted
-  #     end
+      it "assigns a newly created movie as @movie" do
+        post :create, {:movie => valid_attributes}
+        expect(assigns(:movie)).to be_a(Movie)
+        expect(assigns(:movie)).to be_persisted
+      end
+    end
+  end
 
-  #     it "redirects to the created movie" do
-  #       post :create, {:movie => valid_attributes}, valid_session
-  #       expect(response).to redirect_to(Movie.last)
-  #     end
-  #   end
+  describe "PUT update" do
+    describe "with valid params" do
+      let(:new_attributes) {
+        ({
+          tagline: "First rule of fight club...",
+          runtime: 139
+          })
+      }
 
-  #   describe "with invalid params" do
-  #     it "assigns a newly created but unsaved movie as @movie" do
-  #       post :create, {:movie => invalid_attributes}, valid_session
-  #       expect(assigns(:movie)).to be_a_new(Movie)
-  #     end
+      it "updates the requested movie" do
+        movie = Movie.create! valid_attributes
+        put :update, {:id => movie.to_param, :movie => new_attributes}
+        movie.reload
 
-  #     it "re-renders the 'new' template" do
-  #       post :create, {:movie => invalid_attributes}, valid_session
-  #       expect(response).to render_template("new")
-  #     end
-  #   end
-  # end
+        expect(movie.runtime).to eq(139)
+
+      end
+
+      it "assigns the requested movie as @movie" do
+        movie = Movie.create! valid_attributes
+        put :update, {:id => movie.to_param, :movie => valid_attributes}
+        expect(assigns(:movie)).to eq(movie)
+      end
+    end
+  end
 end

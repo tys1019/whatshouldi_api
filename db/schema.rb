@@ -30,7 +30,9 @@ ActiveRecord::Schema.define(version: 20150403181437) do
     t.string   "imdb_id"
     t.integer  "themoviedb_id"
     t.string   "trailer"
+    t.text     "cast",                                  array: true
     t.text     "purchase_web_sources",                  array: true
+    t.text     "free_web_sources",                      array: true
     t.text     "subscription_web_sources",              array: true
     t.text     "other_sources",                         array: true
     t.text     "rt_ratings",                            array: true

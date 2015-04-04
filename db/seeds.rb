@@ -88,6 +88,7 @@ fc = Movie.create(
             }
           ],
       subscription_web_sources: [],
+      free_web_sources: [],
       other_sources: [],
       rt_ratings: [
           "critics_rating": "Certified Fresh",

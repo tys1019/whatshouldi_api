@@ -36,6 +36,9 @@ RSpec.describe "Searches", :type => :request do
       }
       expect(response).to have_http_status(200)
 
+      require 'byebug'
+      binding.pry
+
       movie = JSON.parse(response.body)['movie']
       expect(movie['title']).to eq "Fight Club"
     end

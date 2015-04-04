@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :movies, only: [:show, :index]
+  resources :movies, only: [:show, :index, :update, :create]
   resources :users, except: [:new, :edit]
   resources :playlists, except: [:new, :edit]
 
