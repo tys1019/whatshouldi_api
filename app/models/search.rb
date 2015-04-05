@@ -17,6 +17,7 @@ class Search
     # else @search_params[:media_type] == "tv"
     #   tv_title_search
     end
+
     @results
   end
 
