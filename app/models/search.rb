@@ -40,6 +40,7 @@ class Search
         title: response['title'],
         overview: response['overview'],
         poster_path: response['poster_400x570'],
+        thumbnail: response['poster_240x342'],
         runtime: response['duration'] / 60,
         guidebox_id: response['id'],
         rottentomatoes_id: response['rottentomatoes'],
