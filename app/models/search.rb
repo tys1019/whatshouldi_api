@@ -36,7 +36,7 @@ class Search
       uri = URI(ENV['GUIDEBOX_BASE_URL'] + "/movie/" + @search_params[:guidebox_id])
       response = JSON.parse(Net::HTTP.get(uri))
 
-      @movie = Movie.create(title: response['title'])
+      @movie = Movie.new(title: response['title'])
       @movie.overview = response['overview']
       @movie.poster_path = response['poster_400x570']
       @movie.thumbnail = response['poster_240x342']
