@@ -36,22 +36,21 @@ class Search
       uri = URI(ENV['GUIDEBOX_BASE_URL'] + "/movie/" + @search_params[:guidebox_id])
       response = JSON.parse(Net::HTTP.get(uri))
 
-      @movie = Movie.create(
-        title: response['title'],
-        overview: response['overview'],
-        poster_path: response['poster_400x570'],
-        thumbnail: response['poster_240x342'],
-        runtime: response['duration'] / 60,
-        guidebox_id: response['id'],
-        rottentomatoes_id: response['rottentomatoes'],
-        imdb_id: response['imdb'],
-        themoviedb_id: response['themoviedb'],
-        trailer: response['trailers']['web'][0]['embed'],
-        cast: response['cast'],
-        free_web_sources: response['free_web_sources'],
-        purchase_web_sources: response['purchase_web_sources'],
-        subscription_web_sources: response['subscription_web_sources'],
-        )
+      @movie = Movie.create(title: response['title'])
+      @movie.overview = response['overview']
+      @movie.poster_path = response['poster_400x570']
+      @movie.thumbnail = response['poster_240x342']
+      @movie.runtime = response['duration'] / 60
+      @movie.guidebox_id = response['id']
+      @movie.rottentomatoes_id = response['rottentomatoes']
+      @movie.imdb_id = response['imdb']
+      @movie.themoviedb_id = response['themoviedb']
+      @movie.trailer = response['trailers']['web']
+      @movie.cast = response['cast']
+      @movie.free_web_sources = response['free_web_sources']
+      @movie.purchase_web_sources = response['purchase_web_sources']
+      @movie.subscription_web_sources = response['subscription_web_sources']
+      @movie.save
     end
   end
 
