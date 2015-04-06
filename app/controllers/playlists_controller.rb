@@ -30,10 +30,13 @@ class PlaylistsController < ApplicationController
   # PATCH/PUT /playlists/1
   # PATCH/PUT /playlists/1.json
   def update
+
+    @user = User.find_by(token: params['user']['token'])
     @playlist = Playlist.find(params[:id])
 
-    if @playlist.update(playlist_params)
-      head :no_content
+    if @user == @playlist.user
+      @playlist.add_remove_item(params['movie'])
+      render json: @playlist, status: :accepted
     else
       render json: @playlist.errors, status: :unprocessable_entity
     end
@@ -54,6 +57,6 @@ class PlaylistsController < ApplicationController
     end
 
     def playlist_params
-      params.require(:playlist).permit(:name, :type)
+      params.require(:playlist).permit(:name, :movie, :user)
     end
 end
