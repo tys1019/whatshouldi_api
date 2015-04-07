@@ -6,17 +6,26 @@ class Search
   def initialize(search_params)
     @search_params = search_params
 
-    if @search_params[:media_type] == "movie"
-
-      if @search_params[:guidebox_id]
-        @results = movie_details
+    if @search_params[:search_type]
+      if @search_params[:search_type] == "rt_ratings"
+        @results = rottentomatoes_ratings
+      elsif @search_params[:search_type] == "rt_reviews"
+        @results = rottentomatoes_reviews
       else
-        @results = movie_title_search
+        @results = []
       end
 
-    # else @search_params[:media_type] == "tv"
-    #   tv_title_search
+    elsif @search_params[:guidebox_id]
+      @results = movie_details
+
+    elsif @search_params[:media_type] == "Movie"
+      @results = movie_title_search
+
     end
+
+    # else @search_params[:media_type] == "TV"
+    #   tv_title_search
+
 
     @results
   end
@@ -52,6 +61,28 @@ class Search
       @movie.subscription_web_sources = response['subscription_web_sources']
       @movie.save
     end
+  end
+
+  def rottentomatoes_ratings
+    @movie = Movie.find_by(rottentomatoes_id: @search_params[:rottentomatoes_id])
+
+    uri = URI(ENV['ROTTENTOMATOES_BASE_URL']  + @movie.rottentomatoes_id.to_s + '.json?apikey=' + ENV['ROTTENTOMATOES_KEY'])
+    response = JSON.parse(Net::HTTP.get(uri))
+
+    @movie.overview = response['synopsis']
+    @movie.genres = response['genres']
+    @movie.rt_ratings = response['ratings']
+    @movie.save
+  end
+
+  def rottentomatoes_reviews
+    @movie = Movie.find_by(rottentomatoes_id: @search_params[:rottentomatoes_id])
+
+    uri = URI(ENV['ROTTENTOMATOES_BASE_URL']  + @movie.rottentomatoes_id.to_s + '/reviews.json?review_type=top_critic&page_limit=20&page=1&country=us&apikey=' + ENV['ROTTENTOMATOES_KEY'])
+    response = JSON.parse(Net::HTTP.get(uri))
+
+    @movie.rt_reviews = response['reviews']
+    @movie.save
   end
 
   def tv_title_search

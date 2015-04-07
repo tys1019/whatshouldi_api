@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150405214423) do
+ActiveRecord::Schema.define(version: 20150407163338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20150405214423) do
     t.text     "free_web_sources",                      array: true
     t.text     "subscription_web_sources",              array: true
     t.text     "other_sources",                         array: true
-    t.text     "rt_ratings",                            array: true
+    t.text     "rt_ratings"
     t.text     "rt_reviews",                            array: true
     t.text     "related",                               array: true
     t.datetime "created_at",               null: false
