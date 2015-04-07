@@ -55,10 +55,10 @@ class Search
       @movie.imdb_id = response['imdb']
       @movie.themoviedb_id = response['themoviedb']
       @movie.trailer = response['trailers']['web'][0]['embed'] if !!response['trailers']['web'][0]
-      @movie.cast = response['cast']
-      @movie.free_web_sources = response['free_web_sources']
-      @movie.purchase_web_sources = response['purchase_web_sources']
-      @movie.subscription_web_sources = response['subscription_web_sources']
+      # @movie.cast = response['cast'].to_json
+      @movie.free_web_sources = response['free_web_sources'].to_json
+      @movie.purchase_web_sources = response['purchase_web_sources'].to_json
+      @movie.subscription_web_sources = response['subscription_web_sources'].to_json
       @movie.save
     end
   end
@@ -69,9 +69,8 @@ class Search
     uri = URI(ENV['ROTTENTOMATOES_BASE_URL']  + @movie.rottentomatoes_id.to_s + '.json?apikey=' + ENV['ROTTENTOMATOES_KEY'])
     response = JSON.parse(Net::HTTP.get(uri))
 
-    @movie.overview = response['synopsis']
     @movie.genres = response['genres']
-    @movie.rt_ratings = response['ratings']
+    @movie.rt_ratings = response['ratings'].to_json
     @movie.save
   end
 
@@ -81,7 +80,7 @@ class Search
     uri = URI(ENV['ROTTENTOMATOES_BASE_URL']  + @movie.rottentomatoes_id.to_s + '/reviews.json?review_type=top_critic&page_limit=20&page=1&country=us&apikey=' + ENV['ROTTENTOMATOES_KEY'])
     response = JSON.parse(Net::HTTP.get(uri))
 
-    @movie.rt_reviews = response['reviews']
+    @movie.rt_reviews = response['reviews'].to_json
     @movie.save
   end
 

@@ -15,12 +15,12 @@ class CreateMovies < ActiveRecord::Migration
       t.integer :themoviedb_id
       t.string :trailer
       t.text :cast, array: true
-      t.text :purchase_web_sources, array: true
-      t.text :free_web_sources, array: true
-      t.text :subscription_web_sources, array: true
-      t.text :other_sources, array: true
-      t.text :rt_ratings, array: true
-      t.text :rt_reviews, array: true
+      t.text :purchase_web_sources
+      t.text :free_web_sources
+      t.text :subscription_web_sources
+      t.text :other_sources
+      t.text :rt_ratings
+      t.text :rt_reviews
       t.text :related, array: true
 
       t.timestamps null: false

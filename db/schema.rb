@@ -31,12 +31,12 @@ ActiveRecord::Schema.define(version: 20150407163338) do
     t.integer  "themoviedb_id"
     t.string   "trailer"
     t.text     "cast",                                  array: true
-    t.text     "purchase_web_sources",                  array: true
-    t.text     "free_web_sources",                      array: true
-    t.text     "subscription_web_sources",              array: true
-    t.text     "other_sources",                         array: true
+    t.text     "purchase_web_sources"
+    t.text     "free_web_sources"
+    t.text     "subscription_web_sources"
+    t.text     "other_sources"
     t.text     "rt_ratings"
-    t.text     "rt_reviews",                            array: true
+    t.text     "rt_reviews"
     t.text     "related",                               array: true
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false

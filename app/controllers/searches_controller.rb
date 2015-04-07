@@ -5,6 +5,7 @@ class SearchesController < ApplicationController
   def search
     @search = Search.new(search_params)
 
+
     render json: @search, status: 200
   end
 
