@@ -56,9 +56,9 @@ class Search
       @movie.themoviedb_id = response['themoviedb']
       @movie.trailer = response['trailers']['web'][0]['embed'] if !!response['trailers']['web'][0]
       # @movie.cast = response['cast'].to_json
-      @movie.free_web_sources = response['free_web_sources'].to_json
-      @movie.purchase_web_sources = response['purchase_web_sources'].to_json
-      @movie.subscription_web_sources = response['subscription_web_sources'].to_json
+      @movie.purchase_web_sources = shorten_link_data(response['purchase_web_sources'])
+      @movie.free_web_sources = shorten_link_data(response['free_web_sources'])
+      @movie.subscription_web_sources = shorten_link_data(response['subscription_web_sources'])
       @movie.save
     end
   end
@@ -84,9 +84,19 @@ class Search
     @movie.save
   end
 
+  def shorten_link_data(links_array)
+    smaller = links_array.map do |source|
+      source.delete('formats')
+      source
+    end
+    smaller.to_json
+  end
+
   def tv_title_search
     1
   end
+
+
 end
 
 
