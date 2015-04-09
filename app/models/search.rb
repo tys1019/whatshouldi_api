@@ -54,7 +54,7 @@ class Search
       @movie.rottentomatoes_id = response['rottentomatoes']
       @movie.imdb_id = response['imdb']
       @movie.themoviedb_id = response['themoviedb']
-      @movie.trailer = response['trailers']['web'][0]['embed'] if !!response['trailers']['web'][0]
+      @movie.trailer = response['trailers']['web'][0]['link'] if !!response['trailers']['web'][0]
       # @movie.cast = response['cast'].to_json
       @movie.purchase_web_sources = shorten_link_data(response['purchase_web_sources'])
       @movie.free_web_sources = shorten_link_data(response['free_web_sources'])
