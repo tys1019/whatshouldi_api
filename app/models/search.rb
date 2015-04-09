@@ -18,8 +18,13 @@ class Search
     elsif @search_params[:guidebox_id]
       @results = movie_details
 
-    elsif @search_params[:media_type] == "Movie"
-      @results = movie_title_search
+    elsif @search_params[:media_type]
+      @search_params[:media_type] = @search_params[:media_type].strip
+
+      if @search_params[:media_type] == "Movie"
+        @results = movie_title_search
+
+      end
 
     end
 
