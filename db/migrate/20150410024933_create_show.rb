@@ -14,6 +14,7 @@ class CreateShow < ActiveRecord::Migration
       t.text :purchase_web_sources
       t.text :free_web_sources
       t.text :subscription_web_sources
+      t.text :tv_everywhere_web_sources
       t.text :episodes
       t.text :seasons
     end

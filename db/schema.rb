@@ -77,10 +77,11 @@ ActiveRecord::Schema.define(version: 20150410025210) do
     t.integer "rottentomatoes_id"
     t.string  "imdb_id"
     t.integer "themoviedb_id"
-    t.text    "cast",                     array: true
+    t.text    "cast",                      array: true
     t.text    "purchase_web_sources"
     t.text    "free_web_sources"
     t.text    "subscription_web_sources"
+    t.text    "tv_everywhere_web_sources"
     t.text    "episodes"
     t.text    "seasons"
   end

@@ -139,9 +139,15 @@ class Search
 
     response = JSON.parse(Net::HTTP.get(uri))
 
+    response['results'].each do |episode|
+      episode['purchase_web_sources'] = shorten_link_data(episode['purchase_web_sources'])
+      episode['free_web_sources'] = shorten_link_data(episode['free_web_sources'])
+      episode['subscription_web_sources'] = shorten_link_data(episode['subscription_web_sources'])
+      episode['tv_everywhere_web_sources'] = shorten_link_data(episode['tv_everywhere_web_sources'])
+    end
+
     response['results'].to_json
   end
-
 
   def get_seasons
     @show = Show.find_by(guidebox_id: @search_params[:guidebox_id])
