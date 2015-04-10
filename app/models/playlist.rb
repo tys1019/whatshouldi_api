@@ -10,12 +10,22 @@ class Playlist < ActiveRecord::Base
   has_many :shows, through: :saved_shows
 
 
-  def add_remove_item(item)
-    @movie = Movie.find(item['id'])
-    if self.movies.where(id: @movie.id) == []
-      self.movies << @movie
+  def add_remove_item(params)
+    if params.key?('movie')
+      @movie = Movie.find(params['movie']['id'])
+      if self.movies.where(id: @movie.id) == []
+        self.movies << @movie
+      else
+        self.movies.delete(@movie)
+      end
     else
-      self.movies.delete(@movie)
+      @show = Show.find(params['show']['id'])
+      if self.shows.where(id: @show.id) == []
+        self.shows << @show
+      else
+        self.shows.delete(@show)
+      end
     end
   end
+
 end

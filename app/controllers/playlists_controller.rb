@@ -35,7 +35,7 @@ class PlaylistsController < ApplicationController
     @playlist = Playlist.find(params[:id])
 
     if @user == @playlist.user
-      @playlist.add_remove_item(params['movie'])
+      @playlist.add_remove_item(params)
       render json: @playlist, status: :accepted
     else
       render json: @playlist.errors, status: :unprocessable_entity
@@ -57,6 +57,6 @@ class PlaylistsController < ApplicationController
     end
 
     def playlist_params
-      params.require(:playlist).permit(:name, :movie, :user)
+      params.require(:playlist).permit(:name, :movie, :user, :show)
     end
 end
