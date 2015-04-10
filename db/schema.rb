@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407163338) do
+ActiveRecord::Schema.define(version: 20150410025210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,30 @@ ActiveRecord::Schema.define(version: 20150407163338) do
   add_index "saved_movies", ["movie_id"], name: "index_saved_movies_on_movie_id", using: :btree
   add_index "saved_movies", ["playlist_id"], name: "index_saved_movies_on_playlist_id", using: :btree
 
+  create_table "saved_shows", force: :cascade do |t|
+    t.integer "playlist_id"
+    t.integer "show_id"
+  end
+
+  add_index "saved_shows", ["playlist_id"], name: "index_saved_shows_on_playlist_id", using: :btree
+  add_index "saved_shows", ["show_id"], name: "index_saved_shows_on_show_id", using: :btree
+
+  create_table "shows", force: :cascade do |t|
+    t.string  "title"
+    t.text    "overview"
+    t.string  "poster_path"
+    t.integer "runtime"
+    t.integer "guidebox_id"
+    t.string  "artwork"
+    t.integer "rottentomatoes_id"
+    t.string  "imdb_id"
+    t.integer "themoviedb_id"
+    t.text    "cast",                     array: true
+    t.text    "purchase_web_sources"
+    t.text    "free_web_sources"
+    t.text    "subscription_web_sources"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "first_name",      null: false
     t.string   "last_name",       null: false
@@ -73,4 +97,6 @@ ActiveRecord::Schema.define(version: 20150407163338) do
   add_foreign_key "playlists", "users"
   add_foreign_key "saved_movies", "movies"
   add_foreign_key "saved_movies", "playlists"
+  add_foreign_key "saved_shows", "playlists"
+  add_foreign_key "saved_shows", "shows"
 end

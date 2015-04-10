@@ -16,21 +16,22 @@ class Search
       end
 
     elsif @search_params[:guidebox_id]
-      @results = movie_details
+      if @search_params[:media_type] == "Movie"
+         @results = movie_details
+      elsif @search_params[:media_type] == "TV"
+        @results = tv_details
+      end
+
+
 
     elsif @search_params[:media_type]
       @search_params[:media_type] = @search_params[:media_type].strip
-
       if @search_params[:media_type] == "Movie"
         @results = movie_title_search
-
+      elsif @search_params[:media_type] == "TV"
+        @results = tv_title_search
       end
-
     end
-
-    # else @search_params[:media_type] == "TV"
-    #   tv_title_search
-
 
     @results
   end
@@ -98,7 +99,32 @@ class Search
   end
 
   def tv_title_search
-    1
+    query = @search_params[:search_query].gsub(/\s/, '%2520')
+    uri = URI(ENV['GUIDEBOX_BASE_URL'] + "/search/title/" + query)
+    response = JSON.parse(Net::HTTP.get(uri))
+    response['results']
+  end
+
+  def tv_details
+    @show = Show.find_by(guidebox_id: @search_params[:guidebox_id])
+
+    if !@show
+      uri = URI(ENV['GUIDEBOX_BASE_URL'] + "/show/" + @search_params[:guidebox_id])
+      response = JSON.parse(Net::HTTP.get(uri))
+
+
+      @show = Show.new(title: response['title'])
+
+      @show.artwork = response['artwork_448x252']
+      @show.overview = response['overview']
+      @show.poster_path = response['poster']
+      @show.runtime = response['runtime']
+      @show.guidebox_id = response['id']
+      @show.imdb_id = response['imdb_id']
+      @show.themoviedb_id = response['themoviedb']
+      @show.save
+    end
+    @show
   end
 
 
