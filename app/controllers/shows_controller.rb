@@ -5,7 +5,7 @@ class ShowsController < ApplicationController
   # GET /shows.json
   def index
 
-    @shows = Show.all.sample(24)
+    @shows = Show.all.sample(4)
     render json: @shows
   end
 
