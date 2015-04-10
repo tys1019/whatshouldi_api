@@ -5,7 +5,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
 
-    @movies = Movie.all.sample(18)
+    @movies = Movie.all.sample(24)
     render json: @movies, serialier: MovieIndexSerializer
   end
 
