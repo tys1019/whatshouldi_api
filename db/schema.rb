@@ -81,6 +81,8 @@ ActiveRecord::Schema.define(version: 20150410025210) do
     t.text    "purchase_web_sources"
     t.text    "free_web_sources"
     t.text    "subscription_web_sources"
+    t.text    "episodes"
+    t.text    "seasons"
   end
 
   create_table "users", force: :cascade do |t|

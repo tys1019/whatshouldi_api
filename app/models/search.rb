@@ -11,6 +11,9 @@ class Search
         @results = rottentomatoes_ratings
       elsif @search_params[:search_type] == "rt_reviews"
         @results = rottentomatoes_reviews
+
+      elsif @search_params[:search_type] == "episodes"
+        @results = get_episodes
       else
         @results = []
       end
@@ -125,6 +128,17 @@ class Search
       @show.save
     end
     @show
+  end
+
+  def get_episodes
+    @show = Show.find_by(guidebox_id: @search_params[:guidebox_id])
+
+
+    uri = URI(ENV['GUIDEBOX_BASE_URL'] + "/show/" + @search_params[:guidebox_id].to_s + "/episodes/all/0/100/all/web/true")
+    response = JSON.parse(Net::HTTP.get(uri))
+
+    @show.episodes = response['results'].to_json
+    @show.save
   end
 
 
