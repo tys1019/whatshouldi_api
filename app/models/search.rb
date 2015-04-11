@@ -1,4 +1,6 @@
 require 'net/http'
+require 'rest_client'
+
 
 class Search
   attr_accessor :results
@@ -11,23 +13,24 @@ class Search
         @results = rottentomatoes_ratings
       elsif @search_params[:search_type] == "rt_reviews"
         @results = rottentomatoes_reviews
-
       elsif @search_params[:search_type] == "seasons"
         @results = get_seasons
       elsif @search_params[:search_type] == "episodes"
         @results = get_episodes
+      elsif @search_params[:search_type] == "related_movies"
+        @results = get_related_movies
+      elsif @search_params[:search_type] == "related_shows"
+        @results = get_related_shows
       else
         @results = []
       end
 
-    elsif @search_params[:guidebox_id]
+    elsif @search_params[:guidebox_id] || @search_params[:imdb_id]
       if @search_params[:media_type] == "Movie"
          @results = movie_details
       elsif @search_params[:media_type] == "TV"
         @results = tv_details
       end
-
-
 
     elsif @search_params[:media_type]
       @search_params[:media_type] = @search_params[:media_type].strip
@@ -49,7 +52,12 @@ class Search
   end
 
   def movie_details
-    @movie = Movie.find_by(guidebox_id: @search_params[:guidebox_id])
+    if @search_params[:guidebox_id]
+      @movie = Movie.find_by(guidebox_id: @search_params[:guidebox_id])
+    elsif @search_params[:imdb_id]
+      @movie = Movie.find_by(imdb_id: @search_params[:imdb_id])
+    else
+    end
 
     # saves movie to database to speed up queries
     if !@movie
@@ -72,6 +80,25 @@ class Search
       @movie.subscription_web_sources = shorten_link_data(response['subscription_web_sources'])
       @movie.save
     end
+  end
+
+  def get_related_movies
+    @movie = Movie.find_by(imdb_id: @search_params[:imdb_id])
+
+    headers = {
+      :content_type => 'application/json',
+      :trakt_api_version => '2',
+      :trakt_api_key => ENV['TRAKT_CLIENT_ID']
+    }
+    response = RestClient::Request.execute(:url => 'https://api-v2launch.trakt.tv/movies/' + @movie.imdb_id + '/related', :method => :get, :verify_ssl => false, :headers => headers)
+
+    @movie.related = response
+    @movie.save
+    response
+  end
+
+  def get_related_shows
+
   end
 
   def rottentomatoes_ratings

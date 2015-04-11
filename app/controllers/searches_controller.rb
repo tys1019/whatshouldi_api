@@ -14,7 +14,7 @@ class SearchesController < ApplicationController
 
 
     def search_params
-      params.permit(:media_type, :search_query, :guidebox_id, :rottentomatoes_id, :search_type, :season)
+      params.permit(:media_type, :search_query, :guidebox_id, :imdb_id, :rottentomatoes_id, :search_type, :season)
     end
 end
 
