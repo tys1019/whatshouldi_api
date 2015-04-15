@@ -97,6 +97,10 @@ class Search
     response
   end
 
+  def get_related_artwork(related_array)
+
+  end
+
   def get_related_shows
 
   end
