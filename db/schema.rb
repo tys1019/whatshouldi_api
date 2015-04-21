@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150411221243) do
+ActiveRecord::Schema.define(version: 20150421005857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20150411221243) do
     t.text    "tv_everywhere_web_sources"
     t.text    "episodes"
     t.text    "seasons"
+    t.text    "related"
   end
 
   create_table "users", force: :cascade do |t|

@@ -92,17 +92,17 @@ class Search
     }
     response = JSON.parse(RestClient::Request.execute(:url => 'https://api-v2launch.trakt.tv/movies/' + @movie.imdb_id + '/related', :method => :get, :verify_ssl => false, :headers => headers))
 
-    response = get_related_artwork(response[0,4])
+    response = get_related_artwork(response[0,4], "/movie/")
 
     @movie.related = response.to_json
     @movie.save
     response.to_json
   end
 
-  def get_related_artwork(related_array)
+  def get_related_artwork(related_array, type)
     with_art = related_array.map do |related|
-      response = JSON.parse(RestClient.get ENV['GUIDEBOX_BASE_URL'] + "/search/movie/id/themoviedb/" + related['ids']['tmdb'].to_s)
-      related['poster_path'] = response["poster_240x342"]
+      response = JSON.parse(RestClient.get ENV['GUIDEBOX_BASE_URL'] + "/search" + type + "id/themoviedb/" + related['ids']['tmdb'].to_s)
+      related['poster_path'] = response["poster_240x342"] || response["artwork_208x117"]
       related['guidebox_id'] = response["id"]
       related
     end
@@ -110,7 +110,20 @@ class Search
   end
 
   def get_related_shows
+    @show = Show.find_by(imdb_id: @search_params[:imdb_id])
 
+    headers = {
+      :content_type => 'application/json',
+      :trakt_api_version => '2',
+      :trakt_api_key => ENV['TRAKT_CLIENT_ID']
+    }
+    response = JSON.parse(RestClient::Request.execute(:url => 'https://api-v2launch.trakt.tv/shows/' + @show.imdb_id + '/related', :method => :get, :verify_ssl => false, :headers => headers))
+
+    response = get_related_artwork(response[0,4], "/")
+
+    @show.related = response.to_json
+    @show.save
+    response.to_json
   end
 
   def rottentomatoes_ratings
