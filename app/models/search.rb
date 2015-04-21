@@ -90,15 +90,23 @@ class Search
       :trakt_api_version => '2',
       :trakt_api_key => ENV['TRAKT_CLIENT_ID']
     }
-    response = RestClient::Request.execute(:url => 'https://api-v2launch.trakt.tv/movies/' + @movie.imdb_id + '/related', :method => :get, :verify_ssl => false, :headers => headers)
+    response = JSON.parse(RestClient::Request.execute(:url => 'https://api-v2launch.trakt.tv/movies/' + @movie.imdb_id + '/related', :method => :get, :verify_ssl => false, :headers => headers))
 
-    @movie.related = response
+    response = get_related_artwork(response[0,4])
+
+    @movie.related = response.to_json
     @movie.save
-    response
+    response.to_json
   end
 
   def get_related_artwork(related_array)
-
+    with_art = related_array.map do |related|
+      response = JSON.parse(RestClient.get ENV['GUIDEBOX_BASE_URL'] + "/search/movie/id/themoviedb/" + related['ids']['tmdb'].to_s)
+      related['poster_path'] = response["poster_240x342"]
+      related['guidebox_id'] = response["id"]
+      related
+    end
+    with_art
   end
 
   def get_related_shows
