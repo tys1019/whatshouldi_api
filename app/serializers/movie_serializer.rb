@@ -17,5 +17,6 @@ class MovieSerializer < ActiveModel::Serializer
               :free_web_sources,
               :purchase_web_sources,
               :subscription_web_sources,
-              :thumbnail
+              :thumbnail,
+              :related
 end

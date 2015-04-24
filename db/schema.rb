@@ -11,10 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421005857) do
+ActiveRecord::Schema.define(version: 20150423224336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "books", force: :cascade do |t|
+    t.string "google_id"
+    t.string "thumbnail"
+    t.string "title"
+  end
 
   create_table "movies", force: :cascade do |t|
     t.text     "genres",                                array: true
